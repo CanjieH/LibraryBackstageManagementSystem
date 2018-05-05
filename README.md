@@ -1,11 +1,11 @@
 # 图书后台管理系统
 ---
 ## 项目环境
-* 语言：Java
-* IDE：Intellij IDEA
-* Web服务器：Tomcat8.5
-* 数据库MySQL
-* 设计模式：JSP+Servlet+JavaBean构成的MVC模型
+* 语言: Java
+* IDE: Intellij IDEA
+* Web服务器: Tomcat8.5
+* 数据库: MySQL
+* 设计模式: JSP+Servlet+JavaBean构成的MVC模型
 
 ## 实现功能
 ### 登陆注册功能
@@ -16,3 +16,7 @@
 * 图书添加
 * 图书查询(使用AJAX局部刷新)
 * 图书展示
+
+
+## 使用方式
+创建数据库libdb，导入sql脚本，将DBHelper中相关数据配置为自己的设置，导入jar包: servlet、jdbc。
