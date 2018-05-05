@@ -3,9 +3,7 @@ package com.canjie.servlet;
 import com.canjie.DAO.LibDaoImpl;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
@@ -19,8 +17,14 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //设置服务器端以UTF-8编码进行输出
+        response.setCharacterEncoding("UTF-8");
+        //设置浏览器以UTF-8编码进行接收,解决中文乱码问题
+        response.setContentType("text/html;charset=UTF-8");
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+
         if(libDao.login(username, password) == 1){
             //System.out.println("登陆成功！");
             request.getSession().setAttribute("loginUser", username);

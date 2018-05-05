@@ -11,9 +11,44 @@
 <html>
 <head>
 <base href="<%=basePath%>">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>图书查询</title>
-	<script type="text/javascript" src="resources/js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="<%=basePath%>/resources/js/jquery-1.4.2.js"></script>
+	<script type="text/javascript">
+        //$("#search").click(function(){
+        function searchAction(){
+            //单击查询按钮的时候触发ajax事件
+			//bug:每次点击左菜单的图书查询都会打印这个test，说明方法有被执行，但ajax似乎没有被调用到
+			<%
+				System.out.println("test");
+			%>
+            $.ajax({
+                url:"<%=basePath%>/servlet/SearchServlet",
+                type:"post",
+                data:{
+                    id:$("input[name=bookID]").val(),
+                    name:$("input[name=bookName]").val(),
+                    category:$("input[name=categoryName]").val()
+                },
+                dataType:"json",
+                success:function(result){
+                    var list = eval(result);
+                    var content = null;
+                    for(var i in list){
+                        var id = list[i].id;
+                        var name = list[i].name;
+                        var category = list[i].category;
+                        var price = list[i].price;
+                        var descript = list[i].descript;
+                        content = content + "<tr><td>" + id + "</td><td>" + name + "</td><td>" + category + "</td><td>" + price + "</td><td>" + descript + "</td></tr>";
+                        //$("#cont>tr").remove();
+                    }
+                    $("#cont").html(content);
+                }
+
+            });
+        }
+	</script>
 </head>
 <body>
 	<center>
@@ -22,7 +57,8 @@
 			图书ID：<input type="text" name="bookID">
 			图书名：<input type="text" name="bookName">
 			分类：<input type="text" name="categoryName">
-			<input type="submit" value="查询" id="search">
+			<input type="submit" value="查询" id="search" onclick="searchAction()">
+			<button onclick="searchAction()">切换</button>
 		</p>
 		<hr>
 		<table width="800px" cellspacing="0px" cellpadding="0px" border="1px">
@@ -55,34 +91,4 @@
 	</center>
 	
 </body>
-<script type="text/javascript">
-    $("#search").click(function(){
-        //单击查询按钮的时候触发ajax事件
-        $.ajax({
-            url:"<%=basePath%>/servlet/SearchServlet",
-            type:"post",
-            data:{
-                id:$("input[name=bookID]").val(),
-                name:$("input[name=bookName]").val(),
-				category:$("input[name=categoryName]").val()
-            },
-            dataType:"json",
-            success:function(result){
-				var list = eval(result);
-				var content = null;
-				for(var i in list){
-				    var id = list[i].id;
-				    var name = list[i].name;
-				    var category = list[i].category;
-				    var price = list[i].price;
-				    var descript = list[i].descript;
-				    content = content + "<tr><td>" + id + "</td><td>" + name + "</td><td>" + category + "</td><td>" + price + "</td><td>" + descript + "</td></tr>";
-				    $("#cont>tr").remove();
-				}
-				$("#cont").html(content);
-            }
-
-        });
-    });
-</script>
 </html>
